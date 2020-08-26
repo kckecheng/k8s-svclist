@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+
+  <title>Kubernetes Service Access Central</title>
+  <meta name="description" content="All services running on a Kubernetes cluster">
+  <meta name="author" content="KC">
+
+</head>
+
+<body>
+  <div id="nodes">
+    <table>
+      <caption>Nodes</caption>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Address</th>
+        </tr>
+      </thead>
+      <tbody>
+      {{- range $node := .nodes }}
+        {{- range .Addresses }}
+          <tr>
+            <td>{{ $node.Name }}</td>
+            <td>{{ .type }}</td>
+            <td>{{ .address }}</td>
+          </tr>
+        {{- end }}
+      {{- end }}
+      <tbody>
+      <tfoot>
+        <tr>
+          <td colspan="2"> Total Num. of Nodes: {{ len .nodes }}</td>
+        </tr>
+      </tfoot>
+    </table>
+  </div>
+
+  <div id="services">
+    <table>
+      <caption>Services</caption>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Namespace</th>
+          <th>Type</th>
+          <th>Protocol</th>
+          <th>Service Port</th>
+          <th>Node Port</th>
+        </tr>
+      </thead>
+      <tbody>
+      {{- range $svc := .services }}
+          {{- range .Ports }}
+            <tr>
+              <td>{{ $svc.Name }}</td>
+              <td>{{ $svc.Namespace }}</td>
+              <td>{{ $svc.Type }}</td>
+              <td>{{ .protocol }}</td>
+              <td>{{ .port }}</td>
+              <td>{{ .port }}</td>
+              <td>{{ .nodePort }}</td>
+            </tr>
+          {{- end }}
+      {{- end }}
+      <tbody>
+      <tfoot>
+        <tr>
+          <td colspan="4"> Total Num. of Services: {{ len .services }}</td>
+        </tr>
+      </tfoot>
+    </table>
+  </div>
+</body>
+</html>

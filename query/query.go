@@ -32,8 +32,8 @@ type NodeSVC struct {
 	Nodes      []NodeInfo
 	Services   []SVCInfo
 	Namespaces []string
+	Lock       sync.Mutex
 	client     corev1.CoreV1Interface
-	lock       sync.Mutex
 }
 
 // NewNodeSVC init
@@ -88,11 +88,11 @@ func updateInfo(nodeSvc *NodeSVC) {
 		services = append(services, svcs...)
 	}
 
-	nodeSvc.lock.Lock()
+	nodeSvc.Lock.Lock()
 	nodeSvc.Namespaces = namespaces
 	nodeSvc.Nodes = nodes
 	nodeSvc.Services = services
-	nodeSvc.lock.Unlock()
+	nodeSvc.Lock.Unlock()
 }
 
 // listNamespace list namespaces
