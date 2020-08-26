@@ -21,14 +21,29 @@ func main() {
 	nodeSvc := query.NewNodeSVC()
 
 	router := gin.Default()
-	router.LoadHTMLFiles("templates/index.tmpl")
-	router.GET("/", func(c *gin.Context) {
+
+	router.LoadHTMLGlob("templates/*")
+	router.Static("/static", "static")
+
+	indexFunc := func(c *gin.Context) {
 		nodeSvc.Lock.Lock()
-		c.HTML(http.StatusOK, "index.tmpl", gin.H{
-			"nodes":    nodeSvc.Nodes,
+		c.HTML(http.StatusOK, "services.tmpl", gin.H{
 			"services": nodeSvc.Services,
 		})
 		nodeSvc.Lock.Unlock()
-	})
+	}
+
+	nodeFunc := func(c *gin.Context) {
+		nodeSvc.Lock.Lock()
+		c.HTML(http.StatusOK, "nodes.tmpl", gin.H{
+			"nodes": nodeSvc.Nodes,
+		})
+		nodeSvc.Lock.Unlock()
+	}
+
+	router.GET("/", indexFunc)
+	router.GET("/services", indexFunc)
+	router.GET("/nodes", nodeFunc)
+
 	router.Run(":8080")
 }
