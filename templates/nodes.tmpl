@@ -1,18 +1,5 @@
-<!doctype html>
-<html lang="en">
-<head>
-  <meta charset="utf-8">
+{{ template "header" }}
 
-  <title>Kubernetes Service Access Center - Nodes Information</title>
-  <meta name="description" content="All nodes supporing the Kubernetes cluster">
-  <meta name="author" content="KC">
-
-  <link rel="stylesheet" type="text/css" href="static/jquery.dataTables.min.css">
-  <script src="static/jquery-3.5.1.min.js"></script>
-  <script src="static/jquery.dataTables.min.js"></script>
-</head>
-
-<body>
 	<div id="nodeinfo">
 		<table id="nodes" class="display" style="width:100%">
 			<thead>
@@ -33,17 +20,14 @@
 				{{- end }}
 			{{- end }}
 			<tbody>
+			<tfoot>
+				<tr>
+					<th>Name</th>
+					<th>Type</th>
+					<th>Address</th>
+				</tr>
+			</tfoot>
 		</table>
 	</div>
 
-  <script>
-  	$(document).ready(function() {
-        $('table.display').DataTable({
-          "paging":   false,
-          "ordering": true,
-          "info":     true
-        });
-    });
-  </script>
-</body>
-</html>
+{{ template "footer" }}

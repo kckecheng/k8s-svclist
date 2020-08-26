@@ -1,18 +1,5 @@
-<!doctype html>
-<html lang="en">
-<head>
-  <meta charset="utf-8">
+{{ template "header" }}
 
-  <title>Kubernetes Service Access Center - Service Information</title>
-  <meta name="description" content="All services running on the Kubernetes cluster">
-  <meta name="author" content="KC">
-
-  <link rel="stylesheet" type="text/css" href="static/jquery.dataTables.min.css">
-  <script src="static/jquery-3.5.1.min.js"></script>
-  <script src="static/jquery.dataTables.min.js"></script>
-</head>
-
-<body>
 	<div id="svcinfo">
 		<table id="services" class="display" style="width:100%">
 			<thead>
@@ -39,18 +26,17 @@
 					{{- end }}
 			{{- end }}
 			<tbody>
+			<tfoot>
+				<tr>
+					<th>Name</th>
+					<th>Namespace</th>
+					<th>Type</th>
+					<th>Protocol</th>
+					<th>Service Port</th>
+					<th>Node Port</th>
+				</tr>
+			</tfoot>
 		</table>
 	</div>
 
-  <script>
-  	$(document).ready(function() {
-        $('table.display').DataTable({
-          "paging":   true,
-          "ordering": true,
-          "info":     true,
-          "lengthMenu": [[30, 50, 100, -1], [30, 50, 100, "All"]]
-        });
-    });
-  </script>
-</body>
-</html>
+{{ template "footer" }}

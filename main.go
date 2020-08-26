@@ -22,12 +22,16 @@ func main() {
 
 	router := gin.Default()
 
+	router.StaticFile("favicon.ico", "static/image/favicon.ico")
+	router.Static("/js", "static/js")
+	router.Static("/css", "static/css")
+	router.Static("/images", "static/img")
 	router.LoadHTMLGlob("templates/*")
-	router.Static("/static", "static")
 
 	indexFunc := func(c *gin.Context) {
 		nodeSvc.Lock.Lock()
 		c.HTML(http.StatusOK, "services.tmpl", gin.H{
+			"title":    "Service",
 			"services": nodeSvc.Services,
 		})
 		nodeSvc.Lock.Unlock()
@@ -36,6 +40,7 @@ func main() {
 	nodeFunc := func(c *gin.Context) {
 		nodeSvc.Lock.Lock()
 		c.HTML(http.StatusOK, "nodes.tmpl", gin.H{
+			"title": "Node",
 			"nodes": nodeSvc.Nodes,
 		})
 		nodeSvc.Lock.Unlock()
