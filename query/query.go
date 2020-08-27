@@ -2,7 +2,6 @@ package query
 
 import (
 	"fmt"
-	"os"
 	"sync"
 	"time"
 
@@ -37,19 +36,12 @@ type NodeSVC struct {
 }
 
 // NewNodeSVC init
-func NewNodeSVC() *NodeSVC {
-	kubeconfig, ok := os.LookupEnv("KUBECONFIG")
-	if !ok {
-		panic("Env var KUBECONFIG, which points to the path of kubeconfig file, is not defined")
-	}
-
-	// use the current context in kubeconfig
+func NewNodeSVC(kubeconfig string) *NodeSVC {
 	config, err := clientcmd.BuildConfigFromFlags("", kubeconfig)
 	if err != nil {
 		panic(err.Error())
 	}
 
-	// create the clientset
 	clientset, err := kubernetes.NewForConfig(config)
 	if err != nil {
 		panic(err.Error())
